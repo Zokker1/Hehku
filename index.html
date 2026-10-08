@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="fi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#071519" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%2307191c'/%3E%3Ccircle cx='32' cy='32' r='17' fill='none' stroke='%2398f6c8' stroke-opacity='.35'/%3E%3Ccircle cx='32' cy='32' r='7' fill='%2398f6c8'/%3E%3C/svg%3E"
+    />
+    <meta
+      name="description"
+      content="HEHKU on rauhallinen, selainpohjainen valopuutarhapeli ilman aikapainetta tai epäonnistumista."
+    />
+    <title>HEHKU — Hiljaisuuden puutarha</title>
+  </head>
+  <body>
+    <main id="app">
+      <div id="game-shell" aria-label="HEHKU-pelin pelialue"></div>
+
+      <section id="welcome" class="overlay overlay--welcome active" aria-labelledby="game-title">
+        <div class="welcome__halo" aria-hidden="true"></div>
+        <div class="welcome__content">
+          <p class="eyebrow" data-i18n="welcome-kicker">HILJAISUUDEN PUUTARHA</p>
+          <h1 id="game-title">HEH<span>KU</span></h1>
+          <p class="welcome__lead" data-i18n="welcome-lead">
+            Kerää levottomat valonsäikeet hengityksesi rytmiin ja päästä ne
+            takaisin maailmaan kukkina. Täällä ei ole kiirettä eikä väärää tapaa pelata.
+          </p>
+
+          <div class="welcome__actions">
+            <button id="begin-button" class="button button--primary">
+              <span data-i18n="begin-label">Aloita matka</span>
+              <span class="button__arrow" aria-hidden="true">→</span>
+            </button>
+            <button id="continue-button" class="button button--quiet" hidden>
+              <span data-i18n="continue-fallback">Jatka puutarhaa</span>
+            </button>
+          </div>
+
+          <div class="welcome__lang">
+            <div id="language-switcher" class="language-switcher" role="group" aria-label="Kieli">
+              <button type="button" class="lang-button" data-lang="fi" aria-pressed="true">FI</button>
+              <span aria-hidden="true">·</span>
+              <button type="button" class="lang-button" data-lang="en" aria-pressed="false">EN</button>
+            </div>
+          </div>
+
+          <div class="ritual" data-i18n="ritual" aria-label="Peliohje">
+            <div class="ritual__step">
+              <span class="ritual__number">01</span>
+              <p data-i18n="step-1"><strong>Liiku</strong><br />hiirellä tai nuolinäppäimillä</p>
+            </div>
+            <div class="ritual__line" aria-hidden="true"></div>
+            <div class="ritual__step">
+              <span class="ritual__number">02</span>
+              <p data-i18n="step-2"><strong>Vedä henkeä</strong><br />pitämällä painike pohjassa</p>
+            </div>
+            <div class="ritual__line" aria-hidden="true"></div>
+            <div class="ritual__step">
+              <span class="ritual__number">03</span>
+              <p data-i18n="step-3"><strong>Vapauta</strong><br />ja katso puutarhan heräävän</p>
+            </div>
+          </div>
+
+          <div class="welcome__footer">
+            <span data-i18n="footer-1">Ei aikarajaa</span><i></i><span data-i18n="footer-2">Ei epäonnistumista</span><i></i><span data-i18n="footer-3">6 maailmaa</span>
+          </div>
+        </div>
+      </section>
+
+      <div id="hud" class="hud" hidden>
+        <div class="hud__level">
+          <span id="level-number" class="eyebrow">PUUTARHA 01 / 06</span>
+          <strong id="level-name">Aamukaste</strong>
+        </div>
+        <div class="hud__progress" aria-label="Tason edistyminen">
+          <div class="hud__progress-track"><span id="progress-fill"></span></div>
+          <span id="progress-label">0 / 5 kukkaa</span>
+        </div>
+        <div class="hud__actions">
+          <button id="sound-button" class="icon-button" aria-label="Mykistä äänet" title="Äänet">◌</button>
+          <button id="pause-button" class="icon-button" aria-label="Keskeytä peli" title="Tauko">Ⅱ</button>
+        </div>
+      </div>
+
+      <div id="ability-chip" class="ability-chip" hidden>
+        <span id="ability-icon">✦</span>
+        <span id="ability-text">Tyyneyspulssi valmis · E</span>
+      </div>
+
+      <button id="breath-button" class="breath-button" hidden aria-label="Pidä pohjassa vetääksesi henkeä">
+        <span class="breath-button__rings" aria-hidden="true"></span>
+        <span id="breath-label">PIDÄ · SISÄÄN</span>
+      </button>
+
+      <div id="status-live" class="sr-only" aria-live="polite"></div>
+
+      <section
+        id="level-complete"
+        class="overlay overlay--dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="complete-title"
+      >
+        <div class="dialog dialog--complete">
+          <div class="dialog__flower" aria-hidden="true"><span></span></div>
+          <p id="complete-kicker" class="eyebrow">PUUTARHA ON HEREILLÄ</p>
+          <h2 id="complete-title">Aamukaste hengittää</h2>
+          <p id="complete-text">Jokainen hellitetty ajatus jätti jälkeensä hieman enemmän valoa.</p>
+          <button id="next-button" class="button button--primary">
+            <span data-i18n="next-label">Seuraava puutarha</span><span class="button__arrow" aria-hidden="true">→</span>
+          </button>
+          <button id="replay-button" class="button button--quiet">
+            <span data-i18n="replay-label">Viivy vielä täällä</span>
+          </button>
+        </div>
+      </section>
+
+      <section
+        id="journey-complete"
+        class="overlay overlay--dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="journey-title"
+      >
+        <div class="dialog dialog--journey">
+          <div class="constellation" aria-hidden="true">✦　·　✧　·　✦</div>
+          <p class="eyebrow" data-i18n="journey-kicker">KAIKKI KUUSI PUUTARHAA</p>
+          <h2 id="journey-title" data-i18n="journey-title">Valo kulkee nyt kanssasi</h2>
+          <p data-i18n="journey-text">
+            Hiljaisuus ei ollut päämäärä, vaan tila jonka osaat löytää uudelleen.
+            Puutarhat jäävät avoimiksi aina kun haluat palata.
+          </p>
+          <button id="garden-button" class="button button--primary">
+            <span data-i18n="garden-label">Palaa puutarhakartalle</span>
+          </button>
+        </div>
+      </section>
+
+      <section
+        id="pause-screen"
+        class="overlay overlay--dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="pause-title"
+      >
+        <div class="dialog dialog--pause">
+          <p class="eyebrow" data-i18n="pause-kicker">OMA HETKI</p>
+          <h2 id="pause-title" data-i18n="pause-title">Puutarha odottaa</h2>
+          <p data-i18n="pause-text">Pysähdy tähän niin pitkäksi aikaa kuin tarvitset.</p>
+          <button id="resume-button" class="button button--primary">
+            <span data-i18n="resume-label">Jatka</span>
+          </button>
+          <div class="pause-options">
+            <button id="motion-button" class="toggle-button" aria-pressed="false">
+              <span data-i18n="motion-label">Rauhallisempi liike</span><i aria-hidden="true"></i>
+            </button>
+            <button id="pause-sound-button" class="toggle-button" aria-pressed="false">
+              <span data-i18n="pause-sound-label">Äänet</span><i aria-hidden="true"></i>
+            </button>
+          </div>
+          <button id="restart-button" class="button button--quiet">
+            <span data-i18n="restart-label">Aloita puutarha alusta</span>
+          </button>
+          <button id="menu-button" class="text-button" data-i18n="menu-label">Palaa alkuun</button>
+          <p class="safety-note" data-i18n="safety-note">Ei välkettä, ei aikapainetta. Edistyminen tallentuu vain tälle laitteelle.</p>
+        </div>
+      </section>
+
+      <section
+        id="garden-map"
+        class="overlay overlay--dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="map-title"
+      >
+        <div class="dialog dialog--map">
+          <p class="eyebrow" data-i18n="map-kicker">HILJAISUUDEN PUUTARHA</p>
+          <h2 id="map-title" data-i18n="map-title">Valitse paikka, johon palaat</h2>
+          <div id="level-grid" class="level-grid"></div>
+          <button id="map-close-button" class="button button--quiet">
+            <span data-i18n="map-close-label">Sulje kartta</span>
+          </button>
+        </div>
+      </section>
+
+      <div id="orientation-note" role="status">
+        <span aria-hidden="true">↻</span>
+        <span data-i18n="orientation-note-text">Käännä laite vaakasuoraan, jotta puutarhalla on tilaa hengittää.</span>
+      </div>
+    </main>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
