@@ -121,21 +121,4 @@ npm run preview  # tarjoile tuotantobuild paikallisesti
 
 Tai kaksoisklikkaa **`start-preview.bat`** tuotantoversion rakentamiseen ja esikatseluun.
 
-## Julkaiseminen
 
-Julkaise tuotantobuildin `dist/`-sisältö staattisella palvelimella. Suhteelliset tiedostopolut tukevat myös GitHub Pagesin repositoriokohtaista osoitetta. GitHub Pagesissa valitse julkaisulähde repositorion **Settings → Pages** -asetuksista. Pelkän lähdekoodin lisääminen GitHubiin ei julkaise pelattavaa demoa. Tarkemmat ohjeet ovat yllä englanniksi.
-
-## 🎮 Ohjaus
-
-| Toiminto | Syöte                                           |
-| -------- | ----------------------------------------------- |
-| Liiku    | Hiiri / kosketus / WASD / nuolinäppäimet        |
-| Sisään   | Pidä hiiren painiketta, `Space` tai hengitysnappia pohjassa |
-| Ulos     | Vapauta                                         |
-| Pulssi   | `E` (puutarhat 3+)                              |
-| Tauko    | `P` tai `Esc`                                   |
-| Kokoruutu| `F`                                             |
-
-## License
-
-MIT — see [LICENSE](LICENSE).
