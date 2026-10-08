@@ -35,3 +35,5 @@ npm run preview  # tarjoile tuotantobuild paikallisesti
 Tai kaksoisklikkaa **`start-preview.bat`** tuotantoversion rakentamiseen ja esikatseluun.
 
 
+<img width="1900" height="954" alt="image" src="https://github.com/user-attachments/assets/0ee60fd7-3718-455e-a682-bfb6720539e6" />
+<img width="1916" height="949" alt="image" src="https://github.com/user-attachments/assets/0bb0b4ad-3f44-4c27-858a-3d74a1c17cdb" />
